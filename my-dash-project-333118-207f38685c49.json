@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "my-dash-project-333118",
+  "private_key_id": "207f38685c49688c3574ef522620054f5d614f82",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQD7R7ysWnIPwx9F\nXRUOR1svtpS9pDORfnxnIKifJVxQTlRBfRZYIAsZWnTb1uBx8F9NY1AW7CQA2SRj\n9CUyi7pvGGiQMxjiY1pzLcAAlfsuGZMrS0Z23Siau0dwHfPZlG5a+fSUOR93WTva\nqTTl1GSLFSn0bOp6lRgfnSl6xyyuyTvKtTxiHTRKlShnAK/FsXlEOLjmR8jiJqLE\nXBqrDCumaac+WE5CGDTffPA7WyK70f/BAKm70lh7ee8yfX5HDPZB67XgOVsF430T\niQdHYKDhOIZNfhs5gXxPviNgM/zAfJbrjqoa3vMTdiCtIp4IJJj+CFsaBHA5NuEX\n5d2L9l6NAgMBAAECggEAHvUFj45NAxgc4CTJlUrBNy2dQYfbOo+EsAfb/k9SAirE\nQpUwjYbVFziHsRXV7POaKiSUF17cSKZ3z0Ci3IlOXKV7LFi/NhTbbdkzEF9p5JIO\nCYVqlvZELFvqPyvRgPrCZb7pnOE0uTVrJFM4SyBRirj+xDgu4w8/O5XXKGMlZBr0\nHjQR7AQOxNqWI5v0ijsAYDWOZKLtI+ExVtvZPDupNCfm01dNFf5y2iZALdk7xG51\n5JqRRCNGBSI1I9uifik9lpcapDMpTUOAgSisL6/3bYQ2GzYHEVsD7DhDY5ZBsmX+\nSn1RIk42G/Ru0gRzYTT6g9uyUpmcbrOwGyB5dPET2QKBgQD+zgSIlVzAXfzV3dtY\n73ZqR6g7PCIOJWJRxHvwW2bGpzMV4U/OHImTtNHakzCFzlVgzVqYdAi+Sa8DvL0K\nbvh/LP9VUQ+3/Txq4Ih4a9qJ/fRxp3hZ/sC8rZxkxuSuVlNQUsUBudjFuSZJZSxI\npcvTdqUjYq98si+l9MozqWNHNwKBgQD8dXyizWL04NIPgGRN04S5yLHDikWiK7rU\nQ4AHDPhbbWQBDveeew2erLG7ixQMzLHgvbuRm1lrQXLUcFZJjcSSe1BnjojmTU3K\n1pJNh7/zVEe1ChWpqMXH9vkb4oAH0JVv7VSLibFhWLWYTBtzEo+ySb41zei8OJT/\ncHQ70V9iWwKBgQDXnTvG3CVVfvLxgsAXPONGQgbAwTzMHaRaLtr15FJO7bNT44ol\njo54l/0waXcY8yXaOUtdUGsJos5fajnJd2f+LfSOnH6hob+bbQ7uX83ZETXlauJz\nvRgZUQvTV16xi8kKYk/lCv+9KNSWLO/RNcMJ2Q8ap2p6KUoas87a8o5Y9wKBgAL1\nXYCK5533BH8qAgLnd6a1s1+XPzmnSYkzQUzT2hU4MvPQORaiWoaBf5OzDYkY3PzF\nPG14ZJPdMHtM1bYG80bEKy0Lfo80WLUHzq8Z6CXx1uVIOPjEAY1WV5T8EoQE7bti\nDJuWAX4ii/485hVzIjv0oUYAI7oQ764Oo04QJg4BAoGAUub2CDRLURkbjDhXa8g5\n31mw82G6hKzNrQDOLCP4rmjlm0kSyTKENs7fVwyMYMSRWnvg5JM5ujWK5oTbpqEZ\nb2AqC75lE0Y+UN8ZDNU0C+d/WFIqaSRd1K6pVBNO4nCOQY55B293gYyHt4EqazdJ\nAOsRUGVqwYwkKBTMDsf5rdo=\n-----END PRIVATE KEY-----\n",
+  "client_email": "github2@my-dash-project-333118.iam.gserviceaccount.com",
+  "client_id": "111235818354164309185",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/github2%40my-dash-project-333118.iam.gserviceaccount.com"
+}
