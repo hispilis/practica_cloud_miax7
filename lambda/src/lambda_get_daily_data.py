@@ -11,6 +11,9 @@ import logging
 from datetime import datetime
 from datetime import timedelta
 
+#Esta funcion se despliega en AWS Lambda con docker
+#Actualiza diariamente la BD DynamoDB con el precio del dia
+
 def handler(event, context):
     dao_pvpc = dao.PVPCDAO()
     url_base = 'https://api.esios.ree.es/archives/70/download_json?locale=es'

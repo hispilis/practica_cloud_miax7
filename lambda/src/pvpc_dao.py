@@ -10,6 +10,9 @@ import pandas as pd
 from datetime import datetime
 from datetime import timedelta
 
+#Esta clase gestiona el acceso a la BD DynamoDB
+#El main, ejecutado por ejemplo en la maquina remota, carga en BD la info de 5 anyos atras
+
 class PVPCDAO:
     
     def __init__(self):

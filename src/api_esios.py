@@ -5,12 +5,14 @@ import pandas as pd
 
 class APIESIOS:
     
-    def __init__(self):
-        self.url_base = 'https://api.esios.ree.es/archives/70/download_json?locale=es'
-
-    def get_data(self, date):
+    def __init__(self, url_base):
+        self.url_base = url_base
+    
+    def get_daily_data(self, date):
         url = f'{self.url_base}&date={date}'
+        print(url)
         response = requests.get(url)
+        print(response)
         df = pd.DataFrame(response.json()['PVPC'])
         df['Hora'] = df['Hora'].str[:2]
         if 'PCB' in df.columns:
