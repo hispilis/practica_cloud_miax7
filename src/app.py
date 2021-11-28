@@ -38,6 +38,10 @@ app.layout = html.Div(children=[
             initial_visible_month=date(now.year, now.month, now.day),
             min_date_allowed=date(year=(now.year - 5), month=now.month, day=now.day),
             max_date_allowed=date(year=now.year, month=now.month, day=now.day),
+
+            display_format='DD/MM/YYYY',
+            first_day_of_week=1,
+
             date=date(now.year, now.month, now.day)
         )
     ]),

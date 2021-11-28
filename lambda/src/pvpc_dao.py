@@ -69,17 +69,11 @@ class PVPCDAO:
 
 if __name__ == "__main__":
     try:
-        dao = PVPCDAO()
-                
-        date = '01/01/2020'
-
+        dao = PVPCDAO()                
         url_base = 'https://api.esios.ree.es/archives/70/download_json?locale=es'
-
         now = datetime.now()
-
         end_date = datetime(year=now.year, month=now.month, day=now.day)
         start_date = datetime(year=(now.year - 5), month=now.month, day=now.day)
-        
         delta = timedelta(days=1)
 
         while start_date <= end_date:
@@ -89,7 +83,9 @@ if __name__ == "__main__":
             url = f'{url_base}&date={date}'
             response = requests.get(url)
             df = pd.DataFrame(response.json()['PVPC'])
-            for index, row in df.iterrows():                    
+            for index, row in df.iterrows():                                    
+                split_dia = row['Dia'].split('/')
+                row['Dia_ISO'] = f'{split_dia[2]}-{split_dia[1]}-{split_dia[0]}'
                 print(row.to_dict())
                 dao.insert_data(row.to_dict())            
                 #response = dao.get_data(row['Dia'])

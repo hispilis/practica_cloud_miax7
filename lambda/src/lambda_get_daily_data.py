@@ -23,6 +23,8 @@ def handler(event, context):
     response = requests.get(url)
     df = pd.DataFrame(response.json()['PVPC'])
     for index, row in df.iterrows():                    
+        split_dia = row['Dia'].split('/')
+        row['Dia_ISO'] = f'{split_dia[2]}-{split_dia[1]}-{split_dia[0]}'
         print(row.to_dict())
         dao_pvpc.insert_data(row.to_dict())
         response = dao_pvpc.get_data(row['Dia'])
