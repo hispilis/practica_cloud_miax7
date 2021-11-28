@@ -1,14 +1,10 @@
-import pandas as pd
 import boto3
 from boto3.dynamodb.conditions import Key
 
 import requests
-import json
-import logging
 import pandas as pd
 
-from datetime import datetime
-from datetime import timedelta
+from datetime import datetime,timedelta
 
 #Esta clase gestiona el acceso a la BD DynamoDB
 #El main, ejecutado por ejemplo en la maquina remota, carga en BD la info de 5 anyos atras
@@ -85,7 +81,7 @@ if __name__ == "__main__":
             df = pd.DataFrame(response.json()['PVPC'])
             for index, row in df.iterrows():                                    
                 split_dia = row['Dia'].split('/')
-                row['Dia_ISO'] = f'{split_dia[2]}-{split_dia[1]}-{split_dia[0]}'
+                row['Dia'] = f'{split_dia[2]}-{split_dia[1]}-{split_dia[0]}'
                 print(row.to_dict())
                 dao.insert_data(row.to_dict())            
                 #response = dao.get_data(row['Dia'])
