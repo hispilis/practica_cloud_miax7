@@ -20,14 +20,13 @@ def handler(event, context):
     for index, row in df.iterrows():                    
         split_dia = row['Dia'].split('/')
         row['Dia'] = f'{split_dia[2]}-{split_dia[1]}-{split_dia[0]}'
-        print(row.to_dict())
         dao_pvpc.insert_data(row.to_dict())
         response = dao_pvpc.get_data(row['Dia'])
         start_json = '{"PVPC":'
         end_json = '}'
         response = json.dumps(response)
         response = f'{start_json}{response}{end_json}'
-        print(response)
+    print(response)
     return {
         'statusCode': 200,
         'body': response
