@@ -6,8 +6,8 @@ import json
 
 from datetime import datetime
 
-#Esta funcion se despliega en AWS Lambda con docker
-#Actualiza diariamente la BD DynamoDB con el precio del dia
+#Esta funcion actualiza diariamente la BD DynamoDB con el precio del dia
+#Se despliega en AWS Lambda con docker
 
 def handler(event, context):
     dao_pvpc = dao.PVPCDAO()

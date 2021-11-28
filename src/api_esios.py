@@ -39,8 +39,15 @@ class APIESIOS:
             elif 'GEN' in df.columns:
                 df['GEN'] = df['GEN'].str.replace(',','.').astype('float')
                 mean =  df['GEN'].mean()
-            #TODO cambiar este split con el cambio de API
-            str_date = r.split("/")
-            date_object = date(year=int(str_date[2]), month=int(str_date[1]), day=int(str_date[0]))            
-            result[date_object] = mean    
-        return pd.Series(result)
+            str_date = r.split("-")            
+            date_object = date(year=int(str_date[0]), month=int(str_date[1]), day=int(str_date[2]))            
+            result[date_object] = mean
+        serie = pd.Series(result)
+        serie.name = 'pvpc_medio'
+        serie.sort_index(inplace=True)
+        return serie
+
+if __name__ == "__main__":
+    api = APIESIOS('https://z7n1qubz0k.execute-api.eu-west-3.amazonaws.com/default/api_data_pvpc?locale=es')
+    print(api.get_daily_data('2021-11-28'))
+    print(api.get_range_data('2021-11-25','2021-11-28'))

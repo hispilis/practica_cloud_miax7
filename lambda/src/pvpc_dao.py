@@ -63,6 +63,26 @@ class PVPCDAO:
         #eturn df
         return response['Items']
 
+    def get_range(self, start_date, end_date):
+        query_range = (start_date, end_date)
+        print(*query_range)        
+        scan_kwargs = {
+            'FilterExpression': Key('Dia').between(*query_range)
+        }    
+        done = False
+        start_key = None
+        result = []
+        while not done:
+            if start_key:
+                scan_kwargs['ExclusiveStartKey'] = start_key
+            response = self.table.scan(**scan_kwargs)
+            res = response.get('Items', [])
+            if len(res) > 0:
+                result.append(res)
+            start_key = response.get('LastEvaluatedKey', None)
+            done = start_key is None
+        return result
+
 if __name__ == "__main__":
     try:
         dao = PVPCDAO()                
