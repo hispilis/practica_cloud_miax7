@@ -92,7 +92,8 @@ app.layout = dbc.Container([
                 dbc.Col(dcc.DatePickerRange(
                     id='my-date-picker-range',
                     initial_visible_month=date(now.year, now.month, now.day),
-                    min_date_allowed=date(year=(now.year - 5), month=now.month, day=now.day),
+                    #Limitado a 4 meses por el rendimiento de la capa free de AWS
+                    min_date_allowed=date(year=now.year , month=(now.month - 4), day=now.day),
                     max_date_allowed=date(year=now.year, month=now.month, day=now.day),
 
                     display_format='DD/MM/YYYY',
