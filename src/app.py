@@ -2,6 +2,7 @@ import dash
 from dash import dcc
 from dash import html
 from dash.dependencies import Input, Output
+import dash_bootstrap_components as dbc
 
 import plotly.express as px
 import plotly.graph_objects as go
@@ -12,10 +13,10 @@ from datetime import datetime
 
 import api_esios as ae 
 
-external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+#external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+#app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
-app = dash.Dash(__name__,
-external_stylesheets=external_stylesheets)
+app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 url_base_aws = 'https://z7n1qubz0k.execute-api.eu-west-3.amazonaws.com/default/api_data_pvpc?locale=es'
 url_base_esios = 'https://api.esios.ree.es/archives/70/download_json?locale=es'
@@ -24,50 +25,88 @@ api_esios = ae.APIESIOS(url_base_aws)
 
 now = datetime.now()
 
-app.layout = html.Div(children=[
-    html.H1(children='MIAX Practica Cloud'),
+PLOTLY_LOGO = "https://aulavirtual.institutobme.es/pluginfile.php/1/theme_edumy/headerlogo_mobile/1618036393/Marca_Instituto%20BME_RGB_Negativo.png"
+app.layout = dbc.Container([
 
+    dbc.Navbar(
+        dbc.Container(
+            children=[
+                html.A(
+                    # Use row and col to control vertical alignment of logo / brand
+                    dbc.Row(
+                        [
+                            dbc.Col(html.Img(src=PLOTLY_LOGO, height="40px")),
+                            #dbc.Col(dbc.NavbarBrand("INICIO", className="ms-2")),
+                        ],
+                        align="left",
+                        className="g-0",
+                    ),
+                    href="https://practica-cloud-miax7-6c52whetxq-ew.a.run.app/",
+                    style={"textDecoration": "none"},
+                ),
+                dbc.NavItem(dbc.NavLink("INICIO", href="#", style={"color":"white"})),
+                #dbc.NavItem(dbc.NavLink("COMPARATIVA", href="#", style={"color":"white"})),
+                html.Hr(),            
+            ],
+            style={"justify-content":"left"},
+        ),
+        color="#002f5f",
+        dark=False,        
+    ),                    
 
-    html.H5(children='''
-        Esios API
-    '''),            
+    html.Hr(),
 
     html.Div([
-        dcc.DatePickerSingle(
-            id='my-date-picker-single',            
-            initial_visible_month=date(now.year, now.month, now.day),
-            min_date_allowed=date(year=(now.year - 5), month=now.month, day=now.day),
-            max_date_allowed=date(year=now.year, month=now.month, day=now.day),
+        dbc.Row(
+            [
+                dbc.Col(html.H5('TÉRMINO DE FACTURACIÓN DE ENERGÍA ACTIVA DEL PVPC', style={'text-align':'center', 'color':'#006699'})),                
+            ],
+            align="center",
+            className="g-0",
+        ),
+        dbc.Row(
+            [
+                dbc.Col(html.H6('Fecha', style={'text-align':'right', 'margin-top':'0.5rem', 'margin-bottom':'1rem'})),
+                dbc.Col(dcc.DatePickerSingle(
+                    id='my-date-picker-single',            
+                    initial_visible_month=date(now.year, now.month, now.day),
+                    min_date_allowed=date(year=(now.year - 5), month=now.month, day=now.day),
+                    max_date_allowed=date(year=now.year, month=now.month, day=now.day),
 
-            display_format='DD/MM/YYYY',
-            first_day_of_week=1,
+                    display_format='DD/MM/YYYY',
+                    first_day_of_week=1,
 
-            date=date(now.year, now.month, now.day)
-        )
-    ]),
-
-    dcc.Graph(
-        id='example-graph'                              
-    ),
+                    date=date(now.year, now.month, now.day)
+                )),
+            ],
+        ),                    
+        dcc.Graph(
+            id='example-graph'                              
+        ),
+    ]),    
 
     html.Div([
-        dcc.DatePickerRange(
-            id='my-date-picker-range',
-            initial_visible_month=date(now.year, now.month, now.day),
-            min_date_allowed=date(year=(now.year - 5), month=now.month, day=now.day),
-            max_date_allowed=date(year=now.year, month=now.month, day=now.day),
+        dbc.Row(
+            [
+                dbc.Col(html.H6('Rango', style={'text-align':'right', 'margin-top':'0.5rem', 'margin-bottom':'1rem'})),
+                dbc.Col(dcc.DatePickerRange(
+                    id='my-date-picker-range',
+                    initial_visible_month=date(now.year, now.month, now.day),
+                    min_date_allowed=date(year=(now.year - 5), month=now.month, day=now.day),
+                    max_date_allowed=date(year=now.year, month=now.month, day=now.day),
 
-            display_format='DD/MM/YYYY',
-            first_day_of_week=1,
+                    display_format='DD/MM/YYYY',
+                    first_day_of_week=1,
 
-            end_date=date(now.year, now.month, now.day),
-            start_date=date(year=now.year, month=(now.month-1), day=now.day)
-        )
-    ]),
-
-    dcc.Graph(
-        id='example-graph-2'                              
-    ),
+                    end_date=date(now.year, now.month, now.day),
+                    start_date=date(year=now.year, month=(now.month-1), day=now.day)
+                )),
+            ],
+        ),        
+        dcc.Graph(
+            id='example-graph-2'                              
+        ),
+    ]),    
 ])
 
 @app.callback(
@@ -101,7 +140,8 @@ def update_figure(date_value):
     fig.add_trace(go.Scatter(x=df.iloc[:,0], y=df.iloc[:,1],
                         mode='lines',
                         name=f'{date_string}'))
-    fig.update_layout(title='TÉRMINO DE FACTURACIÓN DE ENERGÍA ACTIVA DEL PVPC',
+    fig.update_layout(
+            title='PRECIO DEL DIA',
             xaxis_title='Hora',
             yaxis_title='€/kWh',
             transition_duration=500)        
