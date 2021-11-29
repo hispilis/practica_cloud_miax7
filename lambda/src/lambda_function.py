@@ -1,7 +1,7 @@
 import pvpc_dao as dao
 
 import json
-from datetime import date
+from datetime import date,datetime,timedelta
 
 import pandas as pd
 #Esta funcion se utiliza enlazada con API GATEWAY como API del servicio
@@ -22,11 +22,24 @@ def lambda_handler(event, context):
         print(response)
     elif 'start_date' in params and 'end_date' in params:
         p_start_date = params['start_date'][0]
-        p_end_date = params['end_date'][0]                
-        response = dao_pvpc.get_range(p_start_date,p_end_date)        
+        p_end_date = params['end_date'][0]                    
+                        
+        end_date = datetime.strptime(p_end_date, '%Y-%m-%d')
+        start_date = datetime.strptime(p_start_date, '%Y-%m-%d')
+        delta = timedelta(days=1)
+
+        #response = dao_pvpc.get_range(p_start_date,p_end_date)
+        #Me veo obligado a usar este while por el mal comportamiento del scan para DynamboDB
+        response = []
+        while start_date <= end_date:
+            date_object = start_date
+            start_date += delta                        
+            result = dao_pvpc.get_data(date_object.strftime('%Y-%m-%d'))            
+            response.append(result)        
+        
         result = {}
-        for r in response:
-            df = pd.DataFrame(r)                                    
+        for r in response:            
+            df = pd.DataFrame(r)                
             mean = 0
             if 'PCB' in df.columns:
                 df['PCB'] = df['PCB'].str.replace(',','.').astype('float')
@@ -51,5 +64,5 @@ def lambda_handler(event, context):
 
 if __name__ == "__main__":
     event = {}
-    event['multiValueQueryStringParameters'] = {'start_date': ['2021-11-26'], 'end_date': ['2021-11-28'], 'locale': ['es']}
+    event['multiValueQueryStringParameters'] = {'start_date': ['2021-10-29'], 'end_date': ['2021-11-28'], 'locale': ['es']}
     lambda_handler(event=event, context="")
