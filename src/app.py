@@ -165,8 +165,16 @@ def update_output(start_date, end_date):
         serie = api_esios.get_range_data(start_date_string,end_date_string)
     except Exception as e: 
         print("Caught exception:", e)        
-    fig = px.line(serie, x=serie.index, y=serie.values, title='PRECIO MEDIO DIARIO', labels={'x':'Fecha', 'y':'€/kWh'})
-    fig.update_layout(transition_duration=500)
+
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(x=serie.index, y=serie.values,
+                        mode='lines+markers',
+                        name=f'{start_date_string}-{end_date_string}'))    
+    fig.update_layout(
+            title='PRECIO MEDIO DIARIO',
+            xaxis_title='Fecha',
+            yaxis_title='€/kWh',
+            transition_duration=500)        
     return fig
 
 if __name__ == "__main__":

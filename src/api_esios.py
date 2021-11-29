@@ -27,24 +27,11 @@ class APIESIOS:
         url = f'{self.url_base}&start_date={start_date}&end_date={end_date}'
         print(url)
         response = requests.get(url)
-        response = response.json()
-        result = {}
-        for r in response:            
-            df = pd.DataFrame(response[r])            
-            df['Hora'] = df['Hora'].str[:2]
-            mean = 0
-            if 'PCB' in df.columns:
-                df['PCB'] = df['PCB'].str.replace(',','.').astype('float')
-                mean =  df['PCB'].mean()
-            elif 'GEN' in df.columns:
-                df['GEN'] = df['GEN'].str.replace(',','.').astype('float')
-                mean =  df['GEN'].mean()
-            str_date = r.split("-")            
-            date_object = date(year=int(str_date[0]), month=int(str_date[1]), day=int(str_date[2]))            
-            result[date_object] = mean
-        serie = pd.Series(result)
+        response = response.json()                
+        serie = pd.Series(response)
         serie.name = 'pvpc_medio'
         serie.sort_index(inplace=True)
+        print(serie)        
         return serie
 
 if __name__ == "__main__":

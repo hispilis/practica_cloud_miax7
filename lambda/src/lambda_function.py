@@ -3,6 +3,7 @@ import pvpc_dao as dao
 import json
 from datetime import date
 
+import pandas as pd
 #Esta funcion se utiliza enlazada con API GATEWAY como API del servicio
 #No se va a desplegar con docker
 
@@ -22,19 +23,25 @@ def lambda_handler(event, context):
     elif 'start_date' in params and 'end_date' in params:
         p_start_date = params['start_date'][0]
         p_end_date = params['end_date'][0]                
-        result = dao_pvpc.get_range(p_start_date,p_end_date)        
-        response = ''
-        start_json = '{'
-        for r in result:
-            print(r)
-            id_el  = r[0]['Dia']
-            start_elem = f'"{id_el}":'
-            elem = json.dumps(r)
-            response = f'{response}{start_elem}{elem},'            
-        response = response[:-1]
-        end_json = '}'
-        response = f'{start_json}{response}{end_json}'        
-        print(response)                
+        response = dao_pvpc.get_range(p_start_date,p_end_date)        
+        result = {}
+        for r in response:
+            df = pd.DataFrame(r)                                    
+            mean = 0
+            if 'PCB' in df.columns:
+                df['PCB'] = df['PCB'].str.replace(',','.').astype('float')
+                mean =  df['PCB'].mean()                
+            elif 'GEN' in df.columns:
+                df['GEN'] = df['GEN'].str.replace(',','.').astype('float')
+                mean =  df['GEN'].mean()                
+            str_date = r[0]['Dia'].split("-")                        
+            date_object = date(year=int(str_date[0]), month=int(str_date[1]), day=int(str_date[2]))                        
+            result[date_object] = mean
+        serie = pd.Series(result)
+        serie.name = 'pvpc_medio'
+        serie.sort_index(inplace=True)                
+        response=serie.to_json(date_format='iso')            
+        print(response)
     else:
         response = 'Parametro desconocido'
     return {
@@ -44,5 +51,5 @@ def lambda_handler(event, context):
 
 if __name__ == "__main__":
     event = {}
-    event['multiValueQueryStringParameters'] = {'start_date': ['2016-11-28'], 'end_date': ['2021-11-28'], 'locale': ['es']}
+    event['multiValueQueryStringParameters'] = {'start_date': ['2021-11-26'], 'end_date': ['2021-11-28'], 'locale': ['es']}
     lambda_handler(event=event, context="")
